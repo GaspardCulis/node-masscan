@@ -23,12 +23,12 @@ class Masscan extends TypedEmitter {
      * Starts the masscan process
      * @param {String} range range: CIDR ip range. Example for entire internet: 0.0.0.0/0
      * @param {String} ports ports: Example for all ports: 0-65535. For port 80, and ports from 8000 to 8100 : 80,8000-8100
-     * @param {int} max_rate max_rate: Maximum packet per second
+     * @param {int} max_rate max_rate: Maximum packet per second, defaults to 100
      * @param {String} exclude_file exclude_file: The file containing the IP ranges to exclude from the scan. This one is recommended for scanning the entire internet: https://github.com/robertdavidgraham/masscan/blob/master/data/exclude.conf
      * @default
      */
     start(range, ports, max_rate=100, exclude_file=null) {
-        let args = `${range} -p${ports} --max-rate ${max_rate} ${exclude_file ? `--excludefile ${exclude_file}` : "--exclude 255.255.255.255"}`;
+        let args = `${range} -p${ports} --max-rate ${max_rate ? max_rate : 100} ${exclude_file ? `--excludefile ${exclude_file}` : "--exclude 255.255.255.255"}`;
         console.info(`[masscan] Starting scan with args : ${args}`);
         /**
          * @type { child_process.ChildProcess } The masscan child process
@@ -81,7 +81,7 @@ class Masscan extends TypedEmitter {
             } else if (err==0) {
                 this.emit('complete');
             } else {
-                console.log("Encountered unespected exit code : "+err+"\nLast masscan output :\n\t"+this.last_output);
+                console.log("Encountered unexpected exit code : "+err+"\nLast masscan output :\n\t"+this.last_output);
             }
         });
     }
