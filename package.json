@@ -1,0 +1,25 @@
+{
+  "name": "node-masscan",
+  "version": "1.0.0",
+  "description": "A wrapper for masscan in nodejs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GaspardCulis/node-masscan.git"
+  },
+  "keywords": [
+    "masscan"
+  ],
+  "author": "GaspardCulis",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/GaspardCulis/node-masscan/issues"
+  },
+  "homepage": "https://github.com/GaspardCulis/node-masscan#readme",
+  "dependencies": {
+    "events": "^3.3.0"
+  }
+}
