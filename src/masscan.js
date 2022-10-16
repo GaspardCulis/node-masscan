@@ -36,7 +36,7 @@ class Masscan extends TypedEmitter {
          */
         this._process = child_process.execFile(this.masscan_path, args.split(" "), {maxBuffer: 1024*1024*1024});
         
-        this.process.stdout.on("data", (chunk) => {
+        this._process.stdout.on("data", (chunk) => {
             if (chunk.startsWith("Discovered open port")) {
                 let split = chunk.split(" ").filter((v) => v !== '');
                 let l = split.length;
@@ -46,7 +46,7 @@ class Masscan extends TypedEmitter {
             }
         })
 
-        this.process.stderr.on("data", (chunk) => {
+        this._process.stderr.on("data", (chunk) => {
             if (chunk.startsWith("rate:")) {
                 /**
                  * @type { String } The last outputed message of masscan process
@@ -75,7 +75,7 @@ class Masscan extends TypedEmitter {
             }
         });
 
-        this.process.once("exit", (err) => {
+        this._process.once("exit", (err) => {
             if (err==1) {
                 this.emit('error', this.last_output ? this.last_output : "Masscan proccess exited with error code 1, try with sudo.");
             } else if (err==0) {
