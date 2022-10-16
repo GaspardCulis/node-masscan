@@ -66,10 +66,12 @@ class Masscan extends TypedEmitter {
                 this.percentage = parseFloat(split[1].split("%")[0]);
                 /**
                  * @type { String } The time remaining, format: HH:MM:SS 
+                 * @readonly
                  */
                 this.remaining = split[2].replace("remaining", "");
                 /**
                  * @type { number } The total count of found IPs
+                 * @readonly
                  */
                 this.found = parseInt(split[3].split("=")[1]);
             }
