@@ -19,7 +19,7 @@ Usage
 ```javascript
 const { Masscan } = require('./masscan');
 
-let masscan = new Masscan();
+let masscan = new Masscan(masscan_path = '/usr/bin/masscan');
 
 masscan.on('complete', () => console.log('Scan finished'));
 
