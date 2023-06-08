@@ -1,8 +1,9 @@
 {
   "name": "node-masscan",
-  "version": "1.0.1",
+  "version": "1.1.1",
   "description": "A wrapper for masscan in nodejs",
   "main": "index.js",
+  "types": "./dist/masscan.d.js",
   "scripts": {},
   "repository": {
     "type": "git",
@@ -19,5 +20,8 @@
   "homepage": "https://github.com/GaspardCulis/node-masscan#readme",
   "dependencies": {
     "tiny-typed-emitter": "^2.1.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.1.3"
   }
 }
