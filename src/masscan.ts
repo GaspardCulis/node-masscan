@@ -7,7 +7,7 @@ interface MasscanEvents {
 	complete: () => void;
 }
 
-class Masscan extends TypedEmitter<MasscanEvents> {
+export default class Masscan extends TypedEmitter<MasscanEvents> {
 
 	masscan_path: string;
 	_process: child_process.ChildProcess | undefined;
@@ -21,7 +21,7 @@ class Masscan extends TypedEmitter<MasscanEvents> {
 	 *
 	 * @param { String } masscan_path Path to the masscan executable, default is /usr/bin/masscan
 	 */
-	constructor(masscan_path = "/usr/bin/masscan") {
+	constructor(masscan_path: string = "/usr/bin/masscan") {
 		super();
 		this.masscan_path = masscan_path;
 	}
@@ -34,7 +34,7 @@ class Masscan extends TypedEmitter<MasscanEvents> {
 	 * @param {String} exclude_file exclude_file: The file containing the IP ranges to exclude from the scan. This one is recommended for scanning the entire internet: https://github.com/robertdavidgraham/masscan/blob/master/data/exclude.conf
 	 * @default
 	 */
-	start(range: string, ports: string, max_rate = 100, exclude_file = null) {
+	start(range: string, ports: string, max_rate: number = 100, exclude_file: string | null = null) {
 		let args = `${range} -p${ports} --max-rate ${max_rate ? max_rate : 100} ${exclude_file
 			? `--excludefile ${exclude_file}`
 			: "--exclude 255.255.255.255"
@@ -110,7 +110,3 @@ class Masscan extends TypedEmitter<MasscanEvents> {
 		});
 	}
 }
-
-module.exports = {
-	Masscan: Masscan,
-};
