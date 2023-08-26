@@ -1,10 +1,12 @@
 {
   "name": "node-masscan",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "A wrapper for masscan in nodejs",
-  "main": "index.js",
-  "types": "./dist/masscan.d.js",
-  "scripts": {},
+  "main": "./lib/masscan.js",
+  "types": "./lib/masscan.d.js",
+  "scripts": {
+    "build": "tsc"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/GaspardCulis/node-masscan.git"
@@ -22,6 +24,7 @@
     "tiny-typed-emitter": "^2.1.0"
   },
   "devDependencies": {
-    "typescript": "^5.1.3"
+    "@types/node": "^20.5.6",
+    "typescript": "^5.2.2"
   }
 }

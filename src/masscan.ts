@@ -1,14 +1,22 @@
-const child_process = require("child_process");
-const { TypedEmitter } = require("tiny-typed-emitter");
+import * as child_process from "child_process";
+import { TypedEmitter } from "tiny-typed-emitter";
 
-/**
- * @extends {TypedEmitter<{
-     'found': (ip: String, port: number) => void
-     'error': (message: string) => void
-     'complete': () => void
-   }>}
- */
-class Masscan extends TypedEmitter {
+interface MasscanEvents {
+	found: (ip: String, port: number) => void;
+	error: (message: string) => void;
+	complete: () => void;
+}
+
+class Masscan extends TypedEmitter<MasscanEvents> {
+
+	masscan_path: string;
+	_process: child_process.ChildProcess | undefined;
+	last_output: string | undefined;
+	rate: number | undefined;
+	percentage: number | undefined;
+	remaining: string | undefined;
+	found: number | undefined;
+
 	/**
 	 *
 	 * @param { String } masscan_path Path to the masscan executable, default is /usr/bin/masscan
@@ -26,12 +34,11 @@ class Masscan extends TypedEmitter {
 	 * @param {String} exclude_file exclude_file: The file containing the IP ranges to exclude from the scan. This one is recommended for scanning the entire internet: https://github.com/robertdavidgraham/masscan/blob/master/data/exclude.conf
 	 * @default
 	 */
-	start(range, ports, max_rate = 100, exclude_file = null) {
-		let args = `${range} -p${ports} --max-rate ${max_rate ? max_rate : 100} ${
-			exclude_file
-				? `--excludefile ${exclude_file}`
-				: "--exclude 255.255.255.255"
-		}`;
+	start(range: string, ports: string, max_rate = 100, exclude_file = null) {
+		let args = `${range} -p${ports} --max-rate ${max_rate ? max_rate : 100} ${exclude_file
+			? `--excludefile ${exclude_file}`
+			: "--exclude 255.255.255.255"
+			}`;
 		console.info(`[masscan] Starting scan with args : ${args}`);
 		/**
 		 * @type { child_process.ChildProcess } The masscan child process
@@ -41,9 +48,9 @@ class Masscan extends TypedEmitter {
 			maxBuffer: 1024 * 1024 * 1024,
 		});
 
-		this._process.stdout.on("data", (chunk) => {
+		this._process.stdout?.on("data", (chunk) => {
 			if (chunk.startsWith("Discovered open port")) {
-				let split = chunk.split(" ").filter((v) => v !== "");
+				let split = chunk.split(" ").filter((v: string) => v !== "");
 				let l = split.length;
 				let ip = split[l - 2];
 				let port = parseInt(split[l - 4].split("/")[0]);
@@ -51,7 +58,7 @@ class Masscan extends TypedEmitter {
 			}
 		});
 
-		this._process.stderr.on("data", (chunk) => {
+		this._process.stderr?.on("data", (chunk) => {
 			if (chunk.startsWith("rate:")) {
 				/**
 				 * @type { String } The last outputed message of masscan process
@@ -95,9 +102,9 @@ class Masscan extends TypedEmitter {
 			} else {
 				console.log(
 					"Encountered unexpected exit code : " +
-						err +
-						"\nLast masscan output :\n\t" +
-						this.last_output
+					err +
+					"\nLast masscan output :\n\t" +
+					this.last_output
 				);
 			}
 		});
