@@ -6,7 +6,7 @@ interface MasscanEvents {
     error: (message: string) => void;
     complete: () => void;
 }
-export default class Masscan extends TypedEmitter<MasscanEvents> {
+export declare class Masscan extends TypedEmitter<MasscanEvents> {
     masscan_path: string;
     _process: child_process.ChildProcess | undefined;
     last_output: string | undefined;

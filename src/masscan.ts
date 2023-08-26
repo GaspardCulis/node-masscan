@@ -7,7 +7,7 @@ interface MasscanEvents {
 	complete: () => void;
 }
 
-export default class Masscan extends TypedEmitter<MasscanEvents> {
+export class Masscan extends TypedEmitter<MasscanEvents> {
 
 	masscan_path: string;
 	_process: child_process.ChildProcess | undefined;
@@ -46,7 +46,8 @@ export default class Masscan extends TypedEmitter<MasscanEvents> {
 		 */
 		this._process = child_process.spawn(this.masscan_path, args.split(" "));
 
-		this._process.stdout?.on("data", (chunk: string) => {
+		this._process.stdout?.on("data", (_chunk: Buffer) => {
+			const chunk = _chunk.toString();
 			if (chunk.startsWith("Discovered open port")) {
 				let split = chunk.split(" ").filter((v: string) => v !== "");
 				let l = split.length;
@@ -56,7 +57,8 @@ export default class Masscan extends TypedEmitter<MasscanEvents> {
 			}
 		});
 
-		this._process.stderr?.on("data", (chunk: string) => {
+		this._process.stderr?.on("data", (_chunk: Buffer) => {
+			const chunk = _chunk.toString();
 			if (chunk.startsWith("rate:")) {
 				/**
 				 * @type { String } The last outputed message of masscan process
