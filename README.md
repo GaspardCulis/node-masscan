@@ -17,7 +17,7 @@ Usage
 -----
 
 ```javascript
-const { Masscan } = require('./masscan');
+const Masscan = require('node-masscan');
 
 let masscan = new Masscan(masscan_path = '/usr/bin/masscan');
 
