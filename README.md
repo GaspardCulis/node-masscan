@@ -35,8 +35,4 @@ masscan.on('found', (ip, port) => {
 masscan.start('0.0.0.0/0', "0-65535", 100000, 'data/exclude.conf');
 ```
 
-### Note:
-node-masscan is using ChildProcess stdout to get masscan live outputs, but because masscan can produce lots of output (depending on your scan parameters), the default stdout 200KB buffer isn't enough and had to be pumped up to 1Gb to avoid the child process being killed. If you get an *'Encountered unexpected exit code'* error, it should be because you exceeded this max buffer size (very unlikely). I used this code for a copenheimer like project and it hasn't failed me.
-
-
 
