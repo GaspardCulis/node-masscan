@@ -89,7 +89,7 @@ export class Masscan extends TypedEmitter<MasscanEvents> {
 			}
 		});
 
-		this._process.once("exit", (err: number) => {
+		this._process.once("close", (err: number) => {
 			if (err == 1) {
 				this.emit(
 					"error",
