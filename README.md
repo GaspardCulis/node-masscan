@@ -1,6 +1,6 @@
 node-masscan
 ====
-A [masscan](https://github.com/robertdavidgraham/masscan) wrapper for NodeJS.
+A minimal [masscan](https://github.com/robertdavidgraham/masscan) wrapper for NodeJS.
 
 Install
 -------
@@ -35,4 +35,7 @@ masscan.on('found', (ip, port) => {
 masscan.start('0.0.0.0/0', "0-65535", 100000, 'data/exclude.conf');
 ```
 
+Notes
+-----
 
+For more complex projects use [masscan-node](https://github.com/dumbasPL/masscan-node) it has way more options (issue [#1](https://github.com/GaspardCulis/node-masscan/issues/1#issuecomment-1698230346)).
