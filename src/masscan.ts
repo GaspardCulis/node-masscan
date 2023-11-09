@@ -2,7 +2,7 @@ import * as child_process from "child_process";
 import { TypedEmitter } from "tiny-typed-emitter";
 
 interface MasscanEvents {
-	found: (ip: String, port: number) => void;
+	found: (ip: string, port: number) => void;
 	error: (message: string) => void;
 	complete: () => void;
 }
